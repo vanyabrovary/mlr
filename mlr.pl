@@ -3,8 +3,6 @@ use Mojolicious::Lite;
 
 use DBI;
 
-helper 'lala'      => sub { return 'lalal'; };
-
 ## DB connection
 helper 'db'        => sub { DBI->connect('DBI:mysql:database='.shift->param("db").';host=127.0.0.1', 'root', 'xyz789'); };
 
@@ -47,6 +45,7 @@ helper 'db_save'   => sub {
     my $h = $_[0]->db->prepare($q); $h->execute(@bind);
 };
 
+## DB database table row delete
 helper 'db_delete' => sub {};
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------------- #
@@ -57,24 +56,5 @@ get  '/:db/:tbl/:id'  => sub { $_[0]->render( json => $_[0]->db_load( $_[0]->par
 post '/:db/:tbl/:id'  => sub { $_[0]->render( json => $_[0]->db_save ); };
 post '/:db/:tbl'      => sub { $_[0]->render( json => $_[0]->db_save ); };
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------------ #
-
-# post '/:tbl' => sub {
-    # my $c = shift;
-    # $c->render( json => \@a );
-# };
-
-# /select/join=shop.id:shop.id,shop.id:shop.id,shop.id:shop.id&where=&group=
-
-# post '/:tbl/:id' => sub {
-    # my $c = shift;
-    # $c->render( json => \@a );
-# };
-#
-# delete '/:tbl/:id' => sub {
-    # my $c = shift;
-    # $c->render( json => \@a );
-# };
-
-# ---------------------------------------------------------------------------------- #
 
 app->start;
